@@ -1,0 +1,47 @@
+Memory: 
+	- regardless of the different types, memory is an array of storage elements. a very long list of raws. each raw is 8bit. 
+number of raws is the memory capacity. to address every single element , 6502 uses 16 bit address line. this leads to a total of 2^16 = 65535, which is 64Kbytes. just a little bit more than 65 thousand elements .
+memory is an essential element to the computer, as computer performs calculations on data. and this data exists in memory and IO. most of the operations that the processor does with memory is data movement. load from memory to a register, and store from a register in memory. 
+since the whole 64K is addressed by the 16 bit address, this can be divided into multiple memory banks. this enables multiple memory types to be used for multiple purposes. 
+16 bit addressing operations on an 8-bit processor requires two clock cycles for the address. the lower part of the memory addressabe using the lower 8 bits has 256 storage elements in the memory. if this is thought of as a book, then this can be regarded as page zero. and this is what it is called. page zero have quicker access, and has addresses from 0x0000 to 0x00ff. think of the whole memory as a note book with 256 pages, where each page has 256 bytes. 
+
+The address space of the memory is also used for IO. this is referred to as the memory mapped IO. communicating with an IO device in this sense will be similar to commuicating to memory. 
+
+
+Registers: 
+	- 6502 internally is very simple. it has 5 registers. 
+	- A: The accumulator. used for logic and arithmetic operations 
+	- X, Y: two general purpose registers. 
+	- PC: program counter. holds the current address of the next instruction to be excuted. 
+	- SP: stack pointer. holds the current address of the stack in memory. the stack is used and has a dedicated register as it is very useful and essential data structure. 
+
+
+			
+
+ALU: 
+	- 8-bit logic and arithmetic operations 
+	- communicates with registers and internal data bus 
+	- Add, subtract, OR, AND, XOR 
+	- Compare 
+	- left shift, right shift, rotate 
+	- increment, decrement
+	- set bit, reset bit 
+
+	- ALU is like a function with two inputs where the operation is performed on, called operands. and other inputs as control values. tthese are the function achieved by the operation, called opcode, as well as the status register. the status is important as it can hold useful information relevant to the calculation, such as the carry from the previous operation. the output of the ALU operation is the integer result as well as the updated status register as a result of the operation. 
+        		--------------
+operand1 	------> |	     |-------> result 
+			|  ALU	     |
+operand 2	------> |____________|-------> status 
+			   ^	^	
+		           |    |
+			status 	opcode
+
+the ALU simply decodes the opcode first to route the operands and the status inputs to the correct functional block (add, subtract, logic operations, ..etc)
+The results are updated to the output. 
+
+
+The job of tho programmer is to coordinate using multiple arithmetic and logic operations over and over again using a simple structure to carry out a complex operation. this will manifest itself as a complex calculation or another function such as searching for a string in a long text. 
+
+since these operations are broken down to simple logic and arithmetic operations, different complex functions use some operations more than the other. the ALU is general purpose and is a single element that can be reused. this opens the door for multiple ALU designs, parallel ALUs, limited functionality ALUs. for example, an FFT calculator uses multiple radix-2 operations. this can be done using multiple specific blocks or a single ALU reusing itself over time.This could allow functions to be redesigned using special purpose computational block rather than general purpose. 
+
+
